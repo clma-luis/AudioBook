@@ -12,9 +12,9 @@ import {
 } from "@mui/material";
 import Icons, { IconSize } from "../../../shared/utils/Icons";
 import { Dispatch, MouseEventHandler, SetStateAction } from "react";
-import { useRouter } from "next/router";
+import { signOut, useSession } from "next-auth/react";
 
-const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
+const DashboardNavbarRoot = styled(AppBar)(({ theme }: any) => ({
   backgroundColor: theme.palette.background.paper,
   boxShadow: theme.shadows[3],
 }));
@@ -25,7 +25,10 @@ export interface DashboardNavbarProps {
 
 export const DashboardNavbar = (props: DashboardNavbarProps) => {
   const { onSidebarOpen, ...other } = props;
-  const router = useRouter();
+  const { data: session, status } = useSession();
+
+  console.log(session?.user?.image);
+  console.log({ status });
 
   return (
     <>
@@ -67,10 +70,7 @@ export const DashboardNavbar = (props: DashboardNavbarProps) => {
           <Box sx={{ flexGrow: 1 }} />
 
           <Tooltip title="Salir">
-            <IconButton
-              sx={{ ml: 1 }}
-              onClick={() => router.push("/api/auth/logout")}
-            >
+            <IconButton sx={{ ml: 1 }} onClick={() => signOut()}>
               <Icons name="LogoutIcon" size={IconSize.lg} />
             </IconButton>
           </Tooltip>

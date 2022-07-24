@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Box } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { DashboardNavbar } from "./Navbar";
 import { DashboardSidebar } from "./Sidebar";
-import { useUser } from "@auth0/nextjs-auth0";
+import { useSession, signIn, signOut } from "next-auth/react";
 import Welcome from "../../auth/components/Welcome";
+import { useRouter } from "next/router";
 
 const DashboardLayoutRoot = styled("div")(({ theme }) => ({
   display: "flex",
@@ -19,33 +20,27 @@ const DashboardLayoutRoot = styled("div")(({ theme }) => ({
 export const Layout = (props: React.PropsWithChildren<any>) => {
   const { children } = props;
   const [isSidebarOpen, setSidebarOpen] = useState<boolean>(true);
-  const { user, error, isLoading } = useUser();
-  if (isLoading) return <>Loading...</>;
+  const router = useRouter();
+
   return (
     <>
-      {!user ? (
-        <Welcome />
-      ) : (
-        <>
-          <DashboardLayoutRoot>
-            <Box
-              sx={{
-                display: "flex",
-                flex: "1 1 auto",
-                flexDirection: "column",
-                width: "100%",
-              }}
-            >
-              {children}
-            </Box>
-          </DashboardLayoutRoot>
-          <DashboardNavbar onSidebarOpen={() => setSidebarOpen(true)} />
-          <DashboardSidebar
-            setSidebarOpen={() => setSidebarOpen(false)}
-            isSidebarOpen={isSidebarOpen}
-          />
-        </>
-      )}
+      <DashboardLayoutRoot>
+        <Box
+          sx={{
+            display: "flex",
+            flex: "1 1 auto",
+            flexDirection: "column",
+            width: "100%",
+          }}
+        >
+          {children}
+        </Box>
+      </DashboardLayoutRoot>
+      <DashboardNavbar onSidebarOpen={() => setSidebarOpen(true)} />
+      <DashboardSidebar
+        setSidebarOpen={() => setSidebarOpen(false)}
+        isSidebarOpen={isSidebarOpen}
+      />
     </>
   );
 };

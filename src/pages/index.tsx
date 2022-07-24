@@ -1,11 +1,19 @@
+import { IconButton } from "@mui/material";
+import { getSession, signOut } from "next-auth/react";
 import Head from "next/head";
 import Image from "next/image";
+import { GetServerSideProps } from "next/types";
 
 import styles from "../pages/index.module.css";
+import Icons, { IconSize } from "../shared/utils/Icons";
 
 export default function Home() {
   return (
     <div className={styles.container}>
+      <IconButton sx={{ ml: 1 }} onClick={() => signOut()}>
+        <Icons name="LogoutIcon" size={IconSize.lg} />
+      </IconButton>
+
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
@@ -63,3 +71,20 @@ export default function Home() {
     </div>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await getSession(context);
+
+  if (session === null) {
+    return {
+      redirect: {
+        destination: "/api/auth/signin",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: { session },
+  };
+};

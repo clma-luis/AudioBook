@@ -3,19 +3,41 @@ import type { AppProps } from "next/app";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "../theme";
 import { Layout } from "../modules/layout/components";
-import { UserProvider } from "@auth0/nextjs-auth0";
+import { getSession, SessionProvider, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import { CircularProgress, LinearProgress } from "@mui/material";
+import { GetServerSideProps } from "next";
+import React from "react";
 
 export default function MyApp({
   Component,
   pageProps: { session, ...pageProps },
 }: AppProps) {
   return (
-    <UserProvider>
+    <SessionProvider session={session}>
       <ThemeProvider theme={theme}>
-        <Layout>
+        {Component.auth ? (
+          <Auth>
+            <Component {...pageProps} />
+          </Auth>
+        ) : (
           <Component {...pageProps} />
-        </Layout>
+        )}
       </ThemeProvider>
-    </UserProvider>
+    </SessionProvider>
   );
+}
+
+function Auth({ children }: any) {
+  const router = useRouter();
+
+  const { status } = useSession({
+    required: true,
+  });
+
+  if (status === "loading") {
+    return <LinearProgress color="primary" />;
+  }
+
+  return children;
 }

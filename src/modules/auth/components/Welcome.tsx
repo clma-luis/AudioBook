@@ -1,9 +1,8 @@
-import { useUser } from "@auth0/nextjs-auth0";
+import { IconButton } from "@mui/material";
+import { signIn } from "next-auth/react";
 
 const Welcome = () => {
-  const { user, error, isLoading } = useUser();
-
-  return <a href="/api/auth/login">Login</a>;
+  return <IconButton onClick={() => signIn()}>Login</IconButton>;
 };
 
 export default Welcome;
