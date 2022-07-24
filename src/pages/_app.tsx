@@ -16,9 +16,11 @@ export default function MyApp({
   return (
     <SessionProvider session={session}>
       <ThemeProvider theme={theme}>
-        {Component.auth ? (
+        {session ? (
           <Auth>
-            <Component {...pageProps} />
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
           </Auth>
         ) : (
           <Component {...pageProps} />

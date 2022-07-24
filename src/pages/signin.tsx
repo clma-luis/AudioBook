@@ -29,7 +29,7 @@ export interface ProvidersType {
 
 export const Login = ({ providers }: any) => {
   const { data } = useSession();
-  console.log("data", data?.user);
+
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
@@ -75,24 +75,38 @@ export const Login = ({ providers }: any) => {
                 Inicia sesión con:
               </Typography>
             </Box>
+
             <Grid container spacing={3}>
               <Grid item xs={12} md={6}>
-                {Object.values(providers).map((provider: any) => (
-                  <React.Fragment key={provider.name}>
-                    <Button
-                      color="info"
-                      fullWidth
-                      startIcon={<GoogleIcon />}
-                      onClick={() => signIn(provider.id)}
-                      size="large"
-                      variant="contained"
-                    >
-                      Inicia sesión con {provider.name}
-                    </Button>
-                  </React.Fragment>
-                ))}
+                <Button
+                  color="info"
+                  fullWidth
+                  startIcon={<GoogleIcon />}
+                  onClick={() => signIn(providers.google.id)}
+                  size="large"
+                  variant="contained"
+                >
+                  Inicia sesión con {providers.google.name}
+                </Button>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Button
+                  fullWidth
+                  color="error"
+                  startIcon={<GoogleIcon />}
+                  onClick={() =>
+                    signIn(providers.google.id, {
+                      callbackUrl: `${window.location.origin}/`,
+                    })
+                  }
+                  size="large"
+                  variant="contained"
+                >
+                  Inicia sesión con {providers.google.name}
+                </Button>
               </Grid>
             </Grid>
+
             <Box
               sx={{
                 pb: 1,

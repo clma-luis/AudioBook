@@ -27,9 +27,6 @@ export const DashboardNavbar = (props: DashboardNavbarProps) => {
   const { onSidebarOpen, ...other } = props;
   const { data: session, status } = useSession();
 
-  console.log(session?.user?.image);
-  console.log({ status });
-
   return (
     <>
       <DashboardNavbarRoot
