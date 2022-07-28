@@ -6,6 +6,7 @@ import { DashboardSidebar } from "./Sidebar";
 import { useSession, signIn, signOut } from "next-auth/react";
 import Welcome from "../../auth/components/Welcome";
 import { useRouter } from "next/router";
+import BasicModal from "../../../shared/components/Notiffication";
 
 const DashboardLayoutRoot = styled("div")(({ theme }) => ({
   display: "flex",
@@ -41,6 +42,7 @@ export const Layout = (props: React.PropsWithChildren<any>) => {
         setSidebarOpen={() => setSidebarOpen(false)}
         isSidebarOpen={isSidebarOpen}
       />
+      <BasicModal />
     </>
   );
 };

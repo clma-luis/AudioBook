@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Component, Dispatch, SetStateAction, useEffect } from "react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
@@ -16,7 +16,13 @@ import Icons, { IconSize } from "../../../shared/utils/Icons";
 import { Logo } from "../utils/logo";
 import { NavItem } from "./nav-item";
 
-const items = [
+export interface itemsType {
+  href: string;
+  icon: any;
+  title: string;
+}
+
+const items: itemsType[] = [
   {
     href: "/",
     icon: <Icons name="HomeIcon" size={IconSize.lg} />,
@@ -29,7 +35,7 @@ const items = [
     title: "Blog",
   },
   {
-    href: "/account",
+    href: "/donaciones",
     icon: <Icons name="GiftIcon" size={IconSize.lg} />,
     title: "Donaciones",
   },

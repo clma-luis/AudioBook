@@ -1,8 +1,17 @@
-import { IconButton } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  IconButton,
+} from "@mui/material";
 import { getSession, signOut } from "next-auth/react";
 import Head from "next/head";
 import Image from "next/image";
 import { GetServerSideProps } from "next/types";
+import { useState } from "react";
 
 import styles from "../pages/index.module.css";
 import Icons, { IconSize } from "../shared/utils/Icons";

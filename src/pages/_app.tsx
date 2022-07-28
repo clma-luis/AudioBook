@@ -7,21 +7,21 @@ import { getSession, SessionProvider, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { CircularProgress, LinearProgress } from "@mui/material";
 import { GetServerSideProps } from "next";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { NotifficationProvider } from "../shared/hooks/NotifficationContext";
 
-export default function MyApp({
-  Component,
-  pageProps: { session, ...pageProps },
-}: AppProps) {
+export default function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <SessionProvider session={session}>
+    <SessionProvider session={pageProps.session}>
       <ThemeProvider theme={theme}>
-        {session ? (
-          <Auth>
+        {pageProps.session ? (
+          <NotifficationProvider>
             <Layout>
-              <Component {...pageProps} />
+              <Auth>
+                <Component {...pageProps} />
+              </Auth>
             </Layout>
-          </Auth>
+          </NotifficationProvider>
         ) : (
           <Component {...pageProps} />
         )}
@@ -35,6 +35,9 @@ function Auth({ children }: any) {
 
   const { status } = useSession({
     required: true,
+    onUnauthenticated() {
+      router.push("/api/auth/signin");
+    },
   });
 
   if (status === "loading") {

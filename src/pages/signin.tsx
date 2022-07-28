@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Head from "next/head";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
@@ -17,7 +18,7 @@ import { Facebook as FacebookIcon } from "../shared/components/icons/facebook";
 import { Google as GoogleIcon } from "../shared/components/icons/google";
 import { getProviders, getSession, signIn, useSession } from "next-auth/react";
 import { GetServerSideProps } from "next";
-import React from "react";
+import React, { useEffect } from "react";
 
 export interface ProvidersType {
   id: string;
@@ -28,7 +29,13 @@ export interface ProvidersType {
 }
 
 export const Login = ({ providers }: any) => {
-  const { data } = useSession();
+  const { data: session, status } = useSession();
+
+  useEffect(() => {
+    if (session) {
+      router.push("/api/auth/signin");
+    }
+  }, [session]);
 
   const router = useRouter();
   const formik = useFormik({

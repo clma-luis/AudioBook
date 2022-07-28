@@ -13,6 +13,7 @@ import {
 import Icons, { IconSize } from "../../../shared/utils/Icons";
 import { Dispatch, MouseEventHandler, SetStateAction } from "react";
 import { signOut, useSession } from "next-auth/react";
+import UseNotiffication from "../../../shared/hooks/UseNotiffication";
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }: any) => ({
   backgroundColor: theme.palette.background.paper,
@@ -26,6 +27,20 @@ export interface DashboardNavbarProps {
 export const DashboardNavbar = (props: DashboardNavbarProps) => {
   const { onSidebarOpen, ...other } = props;
   const { data: session, status } = useSession();
+  const { addNotiffication, notiffication } = UseNotiffication();
+
+  console.log(notiffication);
+
+  const handleLogoutOpen = () => {
+    addNotiffication({
+      title: "Estás a punto de cerrar sesión",
+      message:
+        "Estás a punto de salir de AudioBook, presiona 'OK' para cerrar sessión.",
+      onClose: async () => {
+        await signOut();
+      },
+    });
+  };
 
   return (
     <>
@@ -67,7 +82,7 @@ export const DashboardNavbar = (props: DashboardNavbarProps) => {
           <Box sx={{ flexGrow: 1 }} />
 
           <Tooltip title="Salir">
-            <IconButton sx={{ ml: 1 }} onClick={() => signOut()}>
+            <IconButton sx={{ ml: 1 }} onClick={() => handleLogoutOpen()}>
               <Icons name="LogoutIcon" size={IconSize.lg} />
             </IconButton>
           </Tooltip>
