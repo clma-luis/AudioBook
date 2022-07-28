@@ -19,10 +19,6 @@ import Icons, { IconSize } from "../shared/utils/Icons";
 export default function Home() {
   return (
     <div className={styles.container}>
-      <IconButton sx={{ ml: 1 }} onClick={() => signOut()}>
-        <Icons name="LogoutIcon" size={IconSize.lg} />
-      </IconButton>
-
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
