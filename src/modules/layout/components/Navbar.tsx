@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-
+import Image from "next/image";
 import styled from "@emotion/styled";
 import {
   AppBar,
@@ -29,7 +29,7 @@ export const DashboardNavbar = (props: DashboardNavbarProps) => {
   const { data: session, status } = useSession();
   const { addNotiffication, notiffication } = UseNotiffication();
 
-  console.log(notiffication);
+  console.log(session?.user?.image);
 
   const handleLogoutOpen = () => {
     addNotiffication({
@@ -86,18 +86,18 @@ export const DashboardNavbar = (props: DashboardNavbarProps) => {
               <Icons name="LogoutIcon" size={IconSize.lg} />
             </IconButton>
           </Tooltip>
+
           <Tooltip title="Cuenta">
             <Avatar
+              alt={session?.user?.name || ""}
               sx={{
                 height: 40,
                 width: 40,
                 ml: 1,
                 cursor: "pointer",
               }}
-              src="/static/images/avatars/avatar_1.png"
-            >
-              <Icons name="UserIcon" size={IconSize.lg} />
-            </Avatar>
+              src={session?.user?.image || ""}
+            />
           </Tooltip>
         </Toolbar>
       </DashboardNavbarRoot>
